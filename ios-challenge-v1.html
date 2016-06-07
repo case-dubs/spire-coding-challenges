@@ -1,0 +1,196 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>
+	<title>Spire iOS Coding Challenge</title>
+	<style>
+		body, h1, h2{
+			font-family: 'Lato', sans-serif;
+		}
+		body{
+			font-weight: 300;
+		}
+		h1, h2{
+			font-weight: 400;
+		}
+		li{
+			line-height: 1.8;
+		}
+		.body-container{
+		    width: 750px;
+		    max-width: 90%;
+		    margin-left: auto;
+		    margin-right: auto;
+		}
+		#intro h1{
+			padding-bottom: 10px;
+			border-bottom: 1px solid rgb(140,140,140);
+		}
+		#logo{
+			text-align: center;
+		}
+		#logo img{
+			width: 250px;
+		}
+		.wireframe-section .wireframe{
+			width: 35%;
+			display: inline-block;
+		}
+		.wireframe-section .description{
+			margin-left: 30px;
+			width: 60%;
+			display: inline-block;
+			vertical-align: top;
+		}
+		.wireframe img{
+			max-width: 100%;
+		}
+		.code-mini{
+			background-color: #f8f8f8;
+	    border: 1px solid #cccccc;
+	    font-size: 13px;
+	    line-height: 19px;
+	    overflow: auto;
+	    padding: 6px 10px;
+	    border-radius: 3px;
+		}
+		.code-mini .one-in{
+			padding-left: 10px;
+		}
+		.code-mini .two-in{
+			padding-left: 20px;
+		}
+		code, tt {
+	    margin: 0 2px;
+	    padding: 0 5px;
+	    white-space: nowrap;
+	    border: 1px solid #eaeaea;
+	    background-color: #f8f8f8;
+	    border-radius: 3px;
+		}
+		.http-request{
+			background-color: #6bbd5b;
+			padding: 3px;
+			border-radius: 5px;
+			color: white;
+			margin-right: 10px;
+		}
+	</style>
+</head>
+<body>
+<div class="body-container">
+	<div id="header">
+		<div id="logo">
+			<img src="images/Logo_V2-09.png">
+		</div>
+	</div>
+	<div id="intro">
+		<h1>The Spire Streaks Feed Challenge</h1>
+		<p>The goal of this challenge is to create a one screen app that has a scrollable listing of a user’s (“Sally”) streaks. In addition to displaying Sally’s streaks, you’ll also be pulling in any photos or calendar events that are available during the time period when Sally was in a streak. All of the data you’ll need for this exercise is accessible via our Spire challenge API. You may use any 3rd party libraries and tools that you’d like.</p>
+		<p>Feel free to go as simple or elaborate as you'd like in your implementation of this simple one screen app.</p>
+	</div>
+	<div>
+		<h2>Requirements</h2>
+		<ul>
+			<li>User can vertically scroll (both upwards and downwards) to see all historical streaks with descending days</li>
+			<li>For each streak, a "streak card" is rendered with the following data: streak type, duration and start time</li>
+			<li>For streaks that have an associated photo, display the photo on the streak card</li>
+			<li>For streaks that have an associated location, display a map frame of the location on the streak card</li>
+			<li>For streaks that have both an associated location and photo, only display the photo on the streak card</li>
+			<li>If there aren't streaks for a certain day, display a "No Streaks for Today" line item</li>
+		</ul>
+	</div>
+	<div>
+		<h2>Wireframes</h2>
+		<div class="wireframe-section">
+			<div class="wireframe">
+				<img src="images/iOS_challenge_v1_mock_up.png">
+			</div>
+			<p class="description">This screen provides an overview of the core app you'll be building. As you can see, days are listed in descending order. For each day, all streaks that are available are listed in descending order on a "streak card", which contains the streak type, duration, and start time.
+			<br><br>
+			Associated photos and locations show up on the streak card (see requirements above for logic). The app indicates, if a day does not have any associated events. 
+			 </p>
+		</div>
+		<div class="wireframe-section"></div>
+		<div class="wireframe-section"></div>
+	</div>
+	<div>
+		<h2>Notes and other features:</h2>
+				<ul>
+			<li>For purpose of this exercises, the streaks, photos, and locations are completely random and will not return the same response from request-to-request.</li>
+			<li>Many of our users have iffy network connectivity, please engineer this app so that it can handle times when there is no network connectivity and must send the request once connectivity is restored.</li>
+		</ul>
+	</div>
+	<div>
+		<h2>Endpoints</h2>
+			<p>Server: <a href="http://spire-challenge.herokuapp.com/">http://spire-challenge.herokuapp.com/</a><p>
+			<h3>Get list of streaks for a day</h3>
+			<p class="code-mini"><span class="http-request">GET</span>/streaks/:day/</p>
+			<h4>Parameters</h4>
+			<h5>day: timestamp</h5>
+			<p>Returns a list of streaks occurring in the same day. For example, to get all the streaks for June 7th 2016 you would specify 1465257600. All timestamps are in UTC time.</p>
+			<p>Sample Response</p>
+			<div class="code-mini">
+				<p>Status 200 Ok</p>
+				<p>[</p>
+				    <p class="one-in">{</p>
+		        <p class="two-in">"type": "focus",</p>
+		        <p class="two-in">"start_at": 1465259820,</p>
+		        <p class="two-in">"stop_at": 1465261020</p>
+				    <p class="one-in">},<p>
+				    <p class="one-in">{</p>
+		        <p class="two-in">"type": "calm",</p>
+		        <p class="two-in">"start_at": 1465261860,</p>
+		        <p class="two-in">"stop_at": 1465262760</p>
+				    <p class="one-in">},<p>
+				<p>]</p>
+			</div>
+
+			<h3>Get list of photos for a day</h3>
+			<p class="code-mini"><span class="http-request">GET</span>/photos/:day/</p>
+			<h4>Parameters</h4>
+			<h5>day: timestamp</h5>
+			<p>Returns a list of photos occurring in the same day. For example, to get all the photos for June 7th 2016 you would specify 1465257600. All timestamps are in UTC time.</p>
+			<p>Sample Response</p>
+			<div class="code-mini">
+				<p>Status 200 Ok</p>
+				<p>[</p>
+				    <p class="one-in">{</p>
+		        <p class="two-in">"url": "http://i.imgur.com/x2MO4YK.jpg",</p>
+		        <p class="two-in">"taken_at": 1465257734</p>
+				    <p class="one-in">},<p>
+				    <p class="one-in">{</p>
+		        <p class="two-in">"url": "http://i.imgur.com/x2HEsXd.jpg",</p>
+		        <p class="two-in">"taken_at": 1465257904</p>
+				    <p class="one-in">},<p>
+				<p>]</p>
+			</div>
+
+			<h3>Get list of locations for a day</h3>
+			<p class="code-mini"><span class="http-request">GET</span>/photos/:day/</p>
+			<h4>Parameters</h4>
+			<h5>day: timestamp</h5>
+			<p>Returns a list of GPS coordinates occurring in the same day. For example, to get all the coordinates for June 7th 2016 you would specify 1465257600. All timestamps are in UTC time.</p>
+			<p>Sample Response</p>
+			<div class="code-mini">
+				<p>Status 200 Ok</p>
+				<p>[</p>
+				    <p class="one-in">{</p>
+		        <p class="two-in">"arrived_at": 1465262469,</p>
+		        <p class="two-in">"latitude": 37.66728465679385,</p>
+		        <p class="two-in">"longitude": -122.85030180144733</p>
+				    <p class="one-in">},<p>
+				    <p class="one-in">{</p>
+		        <p class="two-in">"arrived_at": 1465262541,</p>
+		        <p class="two-in">"latitude": 37.13521247059176,</p>
+		        <p class="two-in">"longitude": -122.55540240301251</p>
+				    <p class="one-in">},<p>
+				<p>]</p>
+			</div>
+	</div>
+</div>
+
+
+
+</body>
+</html>
